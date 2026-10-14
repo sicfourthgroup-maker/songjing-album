@@ -1,0 +1,23 @@
+name: warm-cdn
+on:
+  push:
+    paths: ["stickers/**", "snaps/**"]
+  workflow_dispatch:
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: purge and warm jsDelivr
+        run: |
+          base="sicfourthgroup-maker/songjing-album"
+          for f in stickers/*; do
+            curl -s -o /dev/null "https://purge.jsdelivr.net/gh/$base@main/$f"
+          done
+          sleep 5
+          for f in stickers/*; do
+            for ref in main 181e2b48d20b0e5d86e61ccf6e151c9274fbeb9f "$GITHUB_SHA"; do
+              code=$(curl -s -o /dev/null -w "%{http_code}" "https://cdn.jsdelivr.net/gh/$base@$ref/$f")
+              echo "$ref $f $code"
+            done
+          done
