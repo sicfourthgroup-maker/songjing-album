@@ -22,4 +22,4 @@
 
 ## 表情包
 
-<img src="stickers/heart-for-tingting.png" width="96">
+<img src="stickers/heart-for-tingting.png" width="96"> <img src="stickers/ziyoule.jpg" width="96">
