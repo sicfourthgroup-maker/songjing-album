@@ -6,6 +6,7 @@ places = {
  "1762566522": "云南 · 大理",
  "1623490925": "香港 · 中环夏悫道",
  "1237910249": "瑞士 · 马特洪峰",
+ "1762566461": "云南 · 大理古城",
 }
 snaps = sorted([f for f in os.listdir("snaps") if f.lower().endswith((".jpg",".png",".webp",".gif"))], reverse=True)
 stickers = sorted(os.listdir("stickers")) if os.path.isdir("stickers") else []
