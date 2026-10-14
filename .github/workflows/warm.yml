@@ -1,23 +1,19 @@
 name: warm-cdn
 on:
   push:
-    paths: ["stickers/**", "snaps/**"]
+    paths: ["stickers/**"]
   workflow_dispatch:
 jobs:
   warm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: purge and warm jsDelivr
+      - name: warm jsDelivr for this commit
         run: |
           base="sicfourthgroup-maker/songjing-album"
+          echo "STICKER COMMIT: $GITHUB_SHA"
           for f in stickers/*; do
-            curl -s -o /dev/null "https://purge.jsdelivr.net/gh/$base@main/$f"
-          done
-          sleep 5
-          for f in stickers/*; do
-            for ref in main 181e2b48d20b0e5d86e61ccf6e151c9274fbeb9f "$GITHUB_SHA"; do
-              code=$(curl -s -o /dev/null -w "%{http_code}" "https://cdn.jsdelivr.net/gh/$base@$ref/$f")
-              echo "$ref $f $code"
+            for i in 1 2; do
+              curl -s -o /dev/null -w "%{http_code} $f\n" "https://cdn.jsdelivr.net/gh/$base@$GITHUB_SHA/$f"
             done
           done
